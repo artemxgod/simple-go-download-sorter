@@ -1,67 +1,46 @@
 package main
 
 import (
-	//"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	files, err := ioutil.ReadDir(".")
+	err := godotenv.Load()
+	check_err(err, "loading .env file")
+	download_path := os.Getenv("DOWNLOAD_PATH")
+	files, err := ioutil.ReadDir(download_path)
 	check_err(err, "reading dir")
-	check_dir("music")
-	check_dir("vid")
-	check_dir("font")
-	check_dir("img")
-	check_dir("drawio")
-	check_dir("docs")
-	check_dir("codesample")
-	photoext := []string{"jpg", "jpeg", "png", "psd", "ico", "bmp"}
-	docext := []string{"pdf", "docx", "pptx", "xlsx"}
-	installerext := []string{"msi", "exe"}
-	codeext := []string{"cpp", "go", "py"}
+	dirs := []string {"music", "vid", "img", "font", "drawio", "docs", "installer", "codesample"}
+	for idx := range dirs {
+		dirs[idx] = download_path + "\\" + dirs[idx]
+		check_dir(dirs[idx])
+	}
+	extmap := map[string][]string {
+		dirs[0]: 	{"mp3"},
+		dirs[1]: 	{"mp4"},
+		dirs[2]:	{"jpg", "jpeg", "png", "psd", "ico", "bmp", "svg"},
+		dirs[3]:  	{"ttf"},
+		dirs[4]:	{"drawio"},
+		dirs[5]:	{"pdf", "docx", "pptx", "xlsx"},
+		dirs[6]:	{"msi", "exe"},
+		dirs[7]:	{"cpp", "go", "py"},
+	}
 
 	for _, file := range files {
 		if !file.IsDir() {
 			str := strings.Split(file.Name(), ".")
-			switch  {
-			case strings.ToLower(str[len(str)-1]) == "mp3":
-				musicdir := "./music"
-				musicdir = strings.Join([]string{musicdir, "/",file.Name()}, "")
-				os.Rename(file.Name(), musicdir)
-			case strings.ToLower(str[len(str)-1]) == "mp4":
-				videodir := "./vid"
-				videodir = strings.Join([]string{videodir, "/",file.Name()}, "")
-				log.Printf(videodir)
-				os.Rename(file.Name(), videodir)
-			case contains_slice(photoext, strings.ToLower(str[len(str)-1])):
-				photodir := "./img"
-				photodir = strings.Join([]string{photodir, "/", file.Name()}, "")
-				os.Rename(file.Name(), photodir)
-			case str[len(str)-1] == "ttf":
-				fontdir := "./font"
-				fontdir = strings.Join([]string{fontdir, "/",file.Name()}, "")
-				os.Rename(file.Name(), fontdir)
-			case str[len(str)-1] == "drawio":
-				drawiodir := "./drawio"
-				drawiodir = strings.Join([]string{drawiodir, "/",file.Name()}, "")
-				os.Rename(file.Name(), drawiodir)
-			case contains_slice(docext, strings.ToLower(str[len(str)-1])):
-				docdir := "./docs"
-				docdir = strings.Join([]string{docdir, "/", file.Name()}, "")
-				os.Rename(file.Name(), docdir)
-			case contains_slice(installerext, strings.ToLower(str[len(str)-1])):
-				installerdir := "./installer"
-				installerdir = strings.Join([]string{installerdir, "/", file.Name()}, "")
-				os.Rename(file.Name(), installerdir)
-			case contains_slice(codeext, strings.ToLower(str[len(str)-1])):
-				codedir := "./codesample"
-				codedir = strings.Join([]string{codedir, "/", file.Name()}, "")
-				os.Rename(file.Name(), codedir)
-			default:
-				log.Println(str[1])
+			for _, dir := range dirs {
+				if contains_ext(strings.ToLower(str[len(str)-1]), extmap[dir]) {
+					new_name := strings.Join([]string{dir, "\\", file.Name()}, "")
+					log.Printf("dir - %s\nfilename - %s\nextmap - %s\nnewname - %s\n",dir, str, extmap[dir], new_name)
+					err = os.Rename(download_path + "\\" + file.Name(), new_name)
+					check_err(err, "rename")
+				}
 			}
 		} 
 	}
@@ -74,7 +53,7 @@ func check_dir(name string) {
 	}
 }
 
-func contains_slice(extensions []string, name string) bool {
+func contains_ext(name string, extensions []string) bool {
 	for _, ext := range extensions {
 		if ext == name {
 			return true
