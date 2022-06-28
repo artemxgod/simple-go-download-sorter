@@ -1,10 +1,16 @@
 all: build
 
 DIR?=d:\downloads
+EXEDIR?= d:\downloads\installer\sortall.exe
 NOWIND=-ldflags -H=windowsgui
 
 run: sort.go
 	go run sort.go $(DIR)
 
 build:
-	go build $(NOWIND) -o ../installer/sortall.exe sort.go $(DIR)
+	go build $(NOWIND) -o $(EXEDIR) sort.go
+
+.PHONY: clean
+
+clean:
+	del $(EXEDIR)

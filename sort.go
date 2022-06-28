@@ -40,7 +40,7 @@ func main() {
 		dirs[2]:	{"jpg", "jpeg", "png", "psd", "ico", "bmp", "svg"},
 		dirs[3]:  	{"ttf"},
 		dirs[4]:	{"drawio"},
-		dirs[5]:	{"pdf", "docx", "pptx", "xlsx"},
+		dirs[5]:	{"pdf", "docx", "pptx", "pptm", "xlsx"},
 		dirs[6]:	{"msi", "exe"},
 		dirs[7]:	{"cpp", "go", "py"},
 	}
@@ -49,6 +49,7 @@ func main() {
 		if !file.IsDir() {
 			str := strings.Split(file.Name(), ".")
 			for _, dir := range dirs {
+				//log.Println(str)
 				if contains_ext(strings.ToLower(str[len(str)-1]), extmap[dir]) {
 					new_name := strings.Join([]string{dir, "\\", file.Name()}, "")
 					log.Printf("dir - %s\nfilename - %s\nextmap - %s\nnewname - %s\n",dir, str, extmap[dir], new_name)
