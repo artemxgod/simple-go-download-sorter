@@ -18,10 +18,11 @@ func main() {
 	check_dir("drawio")
 	check_dir("docs")
 	check_dir("codesample")
-	photoext := "jpgjpegpngpsdicobmp"
-	docext := "pdfdocxpptxxlsx"
-	installerext := "msiexe"
-	codeext := "cppgopy"
+	photoext := []string{"jpg", "jpeg", "png", "psd", "ico", "bmp"}
+	docext := []string{"pdf", "docx", "pptx", "xlsx"}
+	installerext := []string{"msi", "exe"}
+	codeext := []string{"cpp", "go", "py"}
+
 	for _, file := range files {
 		if !file.IsDir() {
 			str := strings.Split(file.Name(), ".")
@@ -35,7 +36,7 @@ func main() {
 				videodir = strings.Join([]string{videodir, "/",file.Name()}, "")
 				log.Printf(videodir)
 				os.Rename(file.Name(), videodir)
-			case strings.Contains(photoext, strings.ToLower(str[len(str)-1])):
+			case contains_slice(photoext, strings.ToLower(str[len(str)-1])):
 				photodir := "./img"
 				photodir = strings.Join([]string{photodir, "/", file.Name()}, "")
 				os.Rename(file.Name(), photodir)
@@ -47,15 +48,15 @@ func main() {
 				drawiodir := "./drawio"
 				drawiodir = strings.Join([]string{drawiodir, "/",file.Name()}, "")
 				os.Rename(file.Name(), drawiodir)
-			case strings.Contains(docext, strings.ToLower(str[len(str)-1])):
+			case contains_slice(docext, strings.ToLower(str[len(str)-1])):
 				docdir := "./docs"
 				docdir = strings.Join([]string{docdir, "/", file.Name()}, "")
 				os.Rename(file.Name(), docdir)
-			case strings.Contains(installerext, strings.ToLower(str[len(str)-1])):
+			case contains_slice(installerext, strings.ToLower(str[len(str)-1])):
 				installerdir := "./installer"
 				installerdir = strings.Join([]string{installerdir, "/", file.Name()}, "")
 				os.Rename(file.Name(), installerdir)
-			case strings.Contains(codeext, strings.ToLower(str[len(str)-1])):
+			case contains_slice(codeext, strings.ToLower(str[len(str)-1])):
 				codedir := "./codesample"
 				codedir = strings.Join([]string{codedir, "/", file.Name()}, "")
 				os.Rename(file.Name(), codedir)
@@ -72,6 +73,16 @@ func check_dir(name string) {
 		os.Mkdir(name, os.ModePerm)
 	}
 }
+
+func contains_slice(extensions []string, name string) bool {
+	for _, ext := range extensions {
+		if ext == name {
+			return true
+		}
+	}
+	return false
+}
+
 func check_err(err error, msg string) {
 	if err != nil {
 		msg := strings.ToUpper(msg)
