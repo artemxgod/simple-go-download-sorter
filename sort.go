@@ -10,9 +10,23 @@ import (
 )
 
 func main() {
+	if len(os.Args) == 2 {
+		godotenv.Write(map[string]string{
+			"DOWNLOAD_PATH": os.Args[1],
+		}, "./.env")
+		err := godotenv.Load()
+		check_err(err, "loading .env file")
+		if _, err = os.Stat(os.Getenv("DOWNLOAD_PATH")); err != nil {
+			godotenv.Write(map[string]string{
+				"DOWNLOAD_PATH": "d:\\downloads",
+			}, "./.env")
+			log.Fatal(err)
+		}
+	}
 	err := godotenv.Load()
 	check_err(err, "loading .env file")
 	download_path := os.Getenv("DOWNLOAD_PATH")
+	// log.Println(download_path)
 	files, err := ioutil.ReadDir(download_path)
 	check_err(err, "reading dir")
 	dirs := []string {"music", "vid", "img", "font", "drawio", "docs", "installer", "codesample"}
@@ -65,6 +79,6 @@ func contains_ext(name string, extensions []string) bool {
 func check_err(err error, msg string) {
 	if err != nil {
 		msg := strings.ToUpper(msg)
-		log.Fatal(err, msg)
+		log.Fatal(msg, "\t", err)
 	}
 }
