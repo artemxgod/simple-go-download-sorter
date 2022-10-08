@@ -26,4 +26,4 @@
 ## Configuration
 
 * If your download folder is not named `Downloads` change DOWNLOAD_PATH value in `.env` file
-* if you use windows OS, go to branch windows - git checkout windows
+* if you use windows OS, go to branch windows - `git checkout windows`
