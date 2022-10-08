@@ -2,7 +2,7 @@
 
 ## Introduction
 
-### The download sorter will help you orgonize your downloads
+### The download sorter will help you organize your downloads
 * It creates folders needed for uploaded files
 * Arranges files in created folders by their extension
 
@@ -22,3 +22,7 @@
 ## Example
 
 ![example_1](materials/sort_example.gif)
+
+## Configuration
+
+* If your download folder is not named `Downloads` change DOWNLOAD_PATH value in `.env` file
