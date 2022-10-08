@@ -18,7 +18,7 @@ func main() {
 		check_err(err, "loading .env file")
 		if _, err = os.Stat(os.Getenv("DOWNLOAD_PATH")); err != nil {
 			godotenv.Write(map[string]string{
-				"DOWNLOAD_PATH": "d:\\downloads",
+				"DOWNLOAD_PATH": "~/Downloads",
 			}, "./.env")
 			log.Fatal(err)
 		}
