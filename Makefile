@@ -13,4 +13,4 @@ build:
 .PHONY: clean
 
 clean:
-	del $(EXEDIR)
+	rm $(EXEDIR)
