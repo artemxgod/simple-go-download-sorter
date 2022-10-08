@@ -31,7 +31,8 @@ func main() {
 	check_err(err, "reading dir")
 	dirs := []string {"music", "vid", "img", "font", "drawio", "docs", "installer", "codesample"}
 	for idx := range dirs {
-		dirs[idx] = download_path + "/" + dirs[idx]
+		dirs[idx] = download_path + "\\" + dirs[idx]
+		check_dir(dirs[idx])
 	}
 	extmap := map[string][]string {
 		dirs[0]: 	{"mp3"},
@@ -50,14 +51,13 @@ func main() {
 			for _, dir := range dirs {
 				//log.Println(str)
 				if contains_ext(strings.ToLower(str[len(str)-1]), extmap[dir]) {
-					check_dir(dir)
-					new_name := strings.Join([]string{dir, "/", file.Name()}, "")
+					new_name := strings.Join([]string{dir, "\\", file.Name()}, "")
 					log.Printf("dir - %s\nfilename - %s\nextmap - %s\nnewname - %s\n",dir, str, extmap[dir], new_name)
-					err = os.Rename(download_path + "/" + file.Name(), new_name)
+					err = os.Rename(download_path + "\\" + file.Name(), new_name)
 					check_err(err, "rename")
 				}
 			}
-		}
+		} 
 	}
 }
 
