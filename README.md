@@ -11,7 +11,7 @@
 |------------|--------------------------|
 | music      | mp3                      |
 | vid        | mp4                      |
-| img        | jpg jpeg psd ico bmp svg |
+| img        | jpg jpeg psd ico bmp svg heic |
 | font       | ttf                      |
 | drawio     | drawio                   |
 | docs       | pdf docx pptx pptm xlsx  |
