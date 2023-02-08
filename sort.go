@@ -36,8 +36,8 @@ func main() {
 	extmap := map[string][]string {
 		dirs[0]: 	{"mp3"},
 		dirs[1]: 	{"mp4"},
-		dirs[2]:	{"jpg", "jpeg", "png", "psd", "ico", "bmp", "svg"},
-		dirs[3]:  	{"ttf"},
+		dirs[2]:	{"jpg", "jpeg", "png", "psd", "ico", "bmp", "svg", "heic"},
+		dirs[3]:  	{"ttf", "woff"},
 		dirs[4]:	{"drawio"},
 		dirs[5]:	{"pdf", "docx", "pptx", "pptm", "xlsx"},
 		dirs[6]:	{"msi", "exe", "dmg"},
