@@ -12,7 +12,7 @@
 | music      | mp3                      |
 | vid        | mp4                      |
 | img        | jpg jpeg psd ico bmp svg heic |
-| font       | ttf                      |
+| font       | ttf woff                    |
 | drawio     | drawio                   |
 | docs       | pdf docx pptx pptm xlsx  |
 | installer  | msi exe dmg              |
