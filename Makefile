@@ -1,6 +1,6 @@
-all: build
+all: run
 
-DIR?=d:\downloads
+DIR?=~/Downloads
 EXEDIR?= d:\downloads\installer\sortall.exe
 NOWIND=-ldflags -H=windowsgui
 
